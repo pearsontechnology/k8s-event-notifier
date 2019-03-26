@@ -51,11 +51,12 @@ func main() {
 			}
 			if ok := stringInSlice(*e.Reason, reasonList); ok {
 				log.Print(*e.InvolvedObject.Name, *e.Message)
+				text := *e.InvolvedObject.Name + " in " + *e.InvolvedObject.Namespace + " namespace"
 				hook := slack.NewWebHook(hookURL)
 				err := hook.PostMessage(&slack.WebHookPostPayload{
 					Text: slackText,
 					Attachments: []*slack.Attachment{
-						{Title: *e.Message, Text: *e.InvolvedObject.Name, Color: "#9741f4", Pretext: *e.Reason},
+						{Title: *e.Message, Text: text, Color: "#9741f4", Pretext: *e.Reason},
 					},
 				})
 				if err != nil {
